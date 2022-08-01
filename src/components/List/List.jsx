@@ -8,7 +8,9 @@ import { getAllNews } from "../../services/HackerNews";
 
 const List = () => {
   const [allNews, setAllNews] = useState([]);
-  const [favorite, setFavorite] = useState([]);
+  const [favorite, setFavorite] = useState(
+    JSON.parse(window.localStorage.getItem("favorite")) ?? [null]
+  );
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(6);
@@ -16,32 +18,34 @@ const List = () => {
   useEffect(() => {
     setLoading(true);
     getAllNews(setAllNews, setLoading);
-    getLocalStorage();
   }, []);
-
   const getNews = () => {
     setLoading(true);
     getAllNews(setAllNews, setLoading);
   };
 
   const SetLocalStorage = (value) => {
-    console.log("nuevo valor", value);
-    console.log("valores del estado", favorite);
-    if (favorite === null) {
-      window.localStorage.setItem("favorite", JSON.stringify(value));
-      setFavorite(value);
-    } else {
-      const newValue = [{...favorite}, value];
-      console.log(newValue);
-      window.localStorage.setItem("favorite", JSON.stringify(newValue));
-      setFavorite(newValue);
+    console.log(favorite)
+    if(favorite[0] === null){
+      console.log("holaaa")
+      setFavorite([value]);
+      localStorage.setItem("favorite", JSON.stringify(value));
+    }else{
+     const resp =  favorite.find(fav => fav.objectID === value.objectID)
+      if(resp){
+        alert("ya tienes esta publicacion en favoritos")
+        return
+      }
+      const tempState = [...favorite,value];
+      setFavorite(tempState);
+      window.localStorage.setItem("favorite", JSON.stringify(tempState));
+       console.log(favorite)
     }
   };
 
-  const getLocalStorage = () => {
-    const getFavorite = JSON.parse(window.localStorage.getItem("favorite"));
-    setFavorite(getFavorite);
-  };
+  // const getLocalStorage = () => {
+
+  // };
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
