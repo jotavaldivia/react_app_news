@@ -1,0 +1,33 @@
+/* mobile */
+.headerContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  border-bottom: 2px solid #ececec;
+}
+
+.logo {
+  width: 208px;
+  height: 30px;
+  font-family: Baskerville;
+  font-size: 28px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #3b3b3b;
+  margin-bottom: 40px;
+}
+
+/*desktop*/
+
+@media (min-width: 800px) {
+  .headerContainer {
+    justify-content: flex-start;
+  }
+  .logo {
+    margin-left: 120px;
+  }
+}
